@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Dimensions,
   SafeAreaView,
   StatusBar,
+  Image,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -14,10 +15,47 @@ import {
 } from 'react-native-responsive-screen';
 import Header from '../components/Header';
 import {Icon} from '@rneui/base';
+import ProgressBar from 'react-native-progress/Bar';
+import {LineChart} from 'react-native-chart-kit';
 
+const screenWidth = Dimensions.get('window').width;
+const data = {
+  labels: ['1', '6', '11', '16', '21', '26', '31'],
+  datasets: [
+    {
+      data: [10, 6, 31, 26, 21, 46,31],
+      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity-0.5})`, // optional
+      strokeWidth: 2, // optional
+    },
+  ],
+};
+const chartConfig = {
+  fillShadowGradientFrom:"#6C4EE3",
+  fillShadowGradientFromOpacity:0.5,
+
+  backgroundGradientFrom: 'white',
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: 'white',
+  backgroundGradientToOpacity: 0.5,
+  color: (opacity = 1) => `rgba(124, 132, 141, ${opacity})`,
+  strokeWidth: 0.4, // optional, default 3
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false, // optional
+  propsForDots: {
+    r: '2',
+    strokeWidth: '2',
+
+  },
+};
 export default function Onboarding({navigation}) {
+  const [progress, setProgress] = useState(0);
+
   return (
     <>
+    <StatusBar
+ backgroundColor="#fff"
+ barStyle="dark-content" // Here is where you change the font-color
+/>
       <Header />
       <View style={styles.container}>
         <View style={styles.cardBig}>
@@ -57,7 +95,7 @@ export default function Onboarding({navigation}) {
             }}>
             <View
               style={{
-                width: '50%',
+                width: '53%',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
@@ -143,30 +181,28 @@ export default function Onboarding({navigation}) {
           </View>
           <View style={styles.cardSmall}>
             <View>
-              <Text
-                style={{
-                  color: '#000000',
-                  fontSize: 30,
-                  fontFamily: 'Inter-SemiBold',
-                }}>
-                1.337
-                <Text
-                  style={{
-                    color: '#000000',
-                    fontSize: 17,
-                    fontFamily: 'Inter-SemiBold',
-                  }}>
-                  ,69 €
-                </Text>
-              </Text>
-
+              <View style={{flexDirection: 'row'}}>
+                <Image
+                  style={styles.logo}
+                  source={require('../assets/images/card1.png')}
+                />
+                <Image
+                  style={styles.logo}
+                  source={require('../assets/images/card2.png')}
+                />
+                <Image
+                  style={styles.logo}
+                  source={require('../assets/images/card3.png')}
+                />
+              </View>
               <Text
                 style={{
                   color: '#777F89',
                   fontSize: 14,
                   fontFamily: 'Inter-Regular',
+                  marginTop: 10,
                 }}>
-                  Cards
+                Cards
               </Text>
             </View>
           </View>
@@ -226,10 +262,73 @@ export default function Onboarding({navigation}) {
                   fontSize: 14,
                   fontFamily: 'Inter-Regular',
                 }}>
-                  Savings
+                Savings
               </Text>
+              <ProgressBar
+                progress={0.3}
+                width={130}
+                height={5}
+                unfilledColor={'#F0EDFC'}
+                color={'#6C4EE3'}
+                borderColor={'transparent'}
+              />
             </View>
           </View>
+        </View>
+        <View style={styles.cardBig}>
+          {/* <LineChart
+            data={{
+              labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+
+              datasets: [
+                {
+                  data: [
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                  ],
+                },
+              ],
+            }}
+            width={Dimensions.get('window').width - 70} // from react-native
+            height={120}
+
+            withInnerLines={false}
+            yAxisInterval={1} // optional, defaults to 1
+            chartConfig={{
+              backgroundColor: 'white',
+              backgroundGradientFrom: 'white',
+              backgroundGradientTo: 'white',
+              decimalPlaces: 2, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              style: {
+                borderRadius: 16,
+              },
+              propsForDots: {
+                r: '2',
+                strokeWidth: '2',
+                stroke: '#ffa726',
+              },
+            }}
+
+            style={{
+              marginVertical: 0,
+              borderRadius: 16,
+            }}
+          /> */}
+          <LineChart
+            data={data}
+            width={screenWidth - 60}
+            height={160}
+            withInnerLines={false}
+            withOuterLines={false}
+            chartConfig={chartConfig}
+
+          />
         </View>
       </View>
     </>
@@ -239,12 +338,17 @@ const styles = StyleSheet.create({
   container: {
     // backgroundColor: '#F7F7F7',
   },
+  logo: {
+    height: 30,
+    width: 30,
+    margin: 2,
+  },
   text: {
     fontFamily: 'Inter-Bold',
   },
   cardBig: {
     backgroundColor: 'white',
-    padding: 17,
+    padding: 20,
     margin: 15,
     borderRadius: 16,
     marginTop: 5,
@@ -252,7 +356,7 @@ const styles = StyleSheet.create({
   },
   cardSmall: {
     backgroundColor: 'white',
-    padding: 17,
+    padding: 20,
     marginRight: 15,
     borderRadius: 16,
     marginTop: 0,
