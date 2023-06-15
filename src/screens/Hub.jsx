@@ -59,7 +59,7 @@ export default function Hub({navigation}) {
         barStyle="dark-content" // Here is where you change the font-color
       />
 
-      <Header />
+      <Header text={"Hub"} />
 
       <View style={styles.container}>
         <View style={styles.cardBig}>

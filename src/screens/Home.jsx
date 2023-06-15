@@ -5,21 +5,17 @@ import {
   Text,
   View,
   Dimensions,
-  SafeAreaView,
   StatusBar,
   Image,
+  ScrollView,
+  FlatList,
 } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import Header from '../components/Header';
-import {Icon} from '@rneui/base';
 import ProgressBar from 'react-native-progress/Bar';
 import {LineChart} from 'react-native-chart-kit';
-import BottomModal from '../components/AddMoreModal';
 import AddMoreModal from '../components/AddMoreModal';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import AMComponent from '../components/AMComponent';
 
 const screenWidth = Dimensions.get('window').width;
 const data = {
@@ -52,247 +48,264 @@ const chartConfig = {
 export default function Home({navigation}) {
   const [progress, setProgress] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [addMoneyActive, setAddMoneyActive] = useState(false);
   return (
     <>
       <StatusBar
-        backgroundColor="#fff"
+        backgroundColor="#F7F7F7"
         barStyle="dark-content" // Here is where you change the font-color
       />
 
-      <Header />
+      {!addMoneyActive && (
+        <>
+          <Header text={"Home"} />
 
-      <View style={styles.container}>
-        <View style={styles.cardBig}>
-          <View style={{width: '50%'}}>
-            <Text
-              style={{
-                color: '#000000',
-                fontSize: 30,
-                fontFamily: 'Inter-SemiBold',
-              }}>
-              1.337
-              <Text
-                style={{
-                  color: '#000000',
-                  fontSize: 17,
-                  fontFamily: 'Inter-SemiBold',
-                }}>
-                ,69 €
-              </Text>
-            </Text>
+          <View style={styles.container}>
+            <View style={styles.cardBig}>
+              <View style={{width: '50%'}}>
+                <Text
+                  style={{
+                    color: '#000000',
+                    fontSize: 30,
+                    fontFamily: 'Inter-SemiBold',
+                  }}>
+                  1.337
+                  <Text
+                    style={{
+                      color: '#000000',
+                      fontSize: 17,
+                      fontFamily: 'Inter-SemiBold',
+                    }}>
+                    ,69 €
+                  </Text>
+                </Text>
 
-            <Text
-              style={{
-                color: '#777F89',
-                fontSize: 14,
-                fontFamily: 'Inter-Regular',
-              }}>
-              Total Balance
-            </Text>
-          </View>
-          <View
-            style={{
-              width: '50%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              display: 'flex',
-            }}>
-            <View
-              style={{
-                width: '53%',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
+                <Text
+                  style={{
+                    color: '#777F89',
+                    fontSize: 14,
+                    fontFamily: 'Inter-Regular',
+                  }}>
+                  Total Balance
+                </Text>
+              </View>
               <View
                 style={{
-                  height: 40,
-                  width: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  width: '50%',
                   flexDirection: 'row',
-                  backgroundColor: '#F0EDFC',
-                  borderRadius: 20,
+                  justifyContent: 'space-between',
+                  display: 'flex',
                 }}>
-                <Text style={{color: '#6C4EE3', fontSize: 20}}>+</Text>
-              </View>
-              <Text
-                style={{
-                  color: '#6C4EE3',
-                  fontFamily: 'Inter-Medium',
-                  fontSize: 14,
-                }}>
-                Add Money
-              </Text>
-            </View>
-            <View
-              style={{
-                width: '45%',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                onPress={() => setModalVisible(!isModalVisible)}>
                 <View
                   style={{
-                    height: 40,
-                    width: 40,
-                    justifyContent: 'center',
-                    alignItems: 'flex-start',
-                    flexDirection: 'row',
-                    backgroundColor: '#F0EDFC',
-                    borderRadius: 20,
+                    width: '53%',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                   }}>
-                  <Text style={{color: '#6C4EE3', fontSize: 20}}>...</Text>
+                  <TouchableOpacity
+                    style={{
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                    onPress={() => setAddMoneyActive(true)}>
+                    <View
+                      style={{
+                        height: 40,
+                        width: 40,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        backgroundColor: '#F0EDFC',
+                        borderRadius: 20,
+                      }}>
+                      <Text style={{color: '#6C4EE3', fontSize: 20}}>+</Text>
+                    </View>
+                    <Text
+                      style={{
+                        color: '#6C4EE3',
+                        fontFamily: 'Inter-Medium',
+                        fontSize: 14,
+                      }}>
+                      Add Money
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-                <Text
-                  style={{
-                    color: '#6C4EE3',
-                    fontFamily: 'Inter-Medium',
-                    fontSize: 14,
-                  }}>
-                  More
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row', margin: 15, marginTop: 0}}>
-          <View style={styles.cardSmall}>
-            <View>
-              <Text
-                style={{
-                  color: '#000000',
-                  fontSize: 30,
-                  fontFamily: 'Inter-SemiBold',
-                }}>
-                230
-                <Text
-                  style={{
-                    color: '#000000',
-                    fontSize: 17,
-                    fontFamily: 'Inter-SemiBold',
-                  }}>
-                  ,39 €
-                </Text>
-              </Text>
 
-              <Text
-                style={{
-                  color: '#777F89',
-                  fontSize: 14,
-                  fontFamily: 'Inter-Regular',
-                }}>
-                Total Balance
-              </Text>
-            </View>
-          </View>
-          <View style={styles.cardSmall}>
-            <View>
-              <View style={{flexDirection: 'row'}}>
-                <Image
-                  style={styles.logo}
-                  source={require('../assets/images/card1.png')}
-                />
-                <Image
-                  style={styles.logo}
-                  source={require('../assets/images/card2.png')}
-                />
-                <Image
-                  style={styles.logo}
-                  source={require('../assets/images/card3.png')}
-                />
+                <View
+                  style={{
+                    width: '45%',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(!isModalVisible)}>
+                    <View
+                      style={{
+                        height: 40,
+                        width: 40,
+                        justifyContent: 'center',
+                        alignItems: 'flex-start',
+                        flexDirection: 'row',
+                        backgroundColor: '#F0EDFC',
+                        borderRadius: 20,
+                      }}>
+                      <Text style={{color: '#6C4EE3', fontSize: 20}}>...</Text>
+                    </View>
+                    <Text
+                      style={{
+                        color: '#6C4EE3',
+                        fontFamily: 'Inter-Medium',
+                        fontSize: 14,
+                      }}>
+                      More
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-              <Text
-                style={{
-                  color: '#777F89',
-                  fontSize: 14,
-                  fontFamily: 'Inter-Regular',
-                  marginTop: 10,
-                }}>
-                Cards
-              </Text>
             </View>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row', margin: 15, marginTop: 0}}>
-          <View style={styles.cardSmall}>
-            <View>
-              <Text
-                style={{
-                  color: '#000000',
-                  fontSize: 30,
-                  fontFamily: 'Inter-SemiBold',
-                }}>
-                507
-                <Text
-                  style={{
-                    color: '#000000',
-                    fontSize: 17,
-                    fontFamily: 'Inter-SemiBold',
-                  }}>
-                  ,30 €
-                </Text>
-              </Text>
+            <View style={{flexDirection: 'row', margin: 15, marginTop: 0}}>
+              <View style={styles.cardSmall}>
+                <View>
+                  <Text
+                    style={{
+                      color: '#000000',
+                      fontSize: 30,
+                      fontFamily: 'Inter-SemiBold',
+                    }}>
+                    230
+                    <Text
+                      style={{
+                        color: '#000000',
+                        fontSize: 17,
+                        fontFamily: 'Inter-SemiBold',
+                      }}>
+                      ,39 €
+                    </Text>
+                  </Text>
 
-              <Text
-                style={{
-                  color: '#777F89',
-                  fontSize: 14,
-                  fontFamily: 'Inter-Regular',
-                }}>
-                Personal
-              </Text>
+                  <Text
+                    style={{
+                      color: '#777F89',
+                      fontSize: 14,
+                      fontFamily: 'Inter-Regular',
+                    }}>
+                    Total Balance
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.cardSmall}>
+                <View>
+                  <View style={{flexDirection: 'row'}}>
+                    <Image
+                      style={styles.logo}
+                      source={require('../assets/images/card1.png')}
+                    />
+                    <Image
+                      style={styles.logo}
+                      source={require('../assets/images/card2.png')}
+                    />
+                    <Image
+                      style={styles.logo}
+                      source={require('../assets/images/card3.png')}
+                    />
+                  </View>
+                  <Text
+                    style={{
+                      color: '#777F89',
+                      fontSize: 14,
+                      fontFamily: 'Inter-Regular',
+                      marginTop: 10,
+                    }}>
+                    Cards
+                  </Text>
+                </View>
+              </View>
             </View>
-          </View>
-          <View style={styles.cardSmall}>
-            <View>
-              <Text
-                style={{
-                  color: '#000000',
-                  fontSize: 30,
-                  fontFamily: 'Inter-SemiBold',
-                }}>
-                12
-                <Text
-                  style={{
-                    color: '#000000',
-                    fontSize: 17,
-                    fontFamily: 'Inter-SemiBold',
-                  }}>
-                  %
-                </Text>
-              </Text>
+            <View style={{flexDirection: 'row', margin: 15, marginTop: 0}}>
+              <View style={styles.cardSmall}>
+                <View>
+                  <Text
+                    style={{
+                      color: '#000000',
+                      fontSize: 30,
+                      fontFamily: 'Inter-SemiBold',
+                    }}>
+                    507
+                    <Text
+                      style={{
+                        color: '#000000',
+                        fontSize: 17,
+                        fontFamily: 'Inter-SemiBold',
+                      }}>
+                      ,30 €
+                    </Text>
+                  </Text>
 
-              <Text
-                style={{
-                  color: '#777F89',
-                  fontSize: 14,
-                  fontFamily: 'Inter-Regular',
-                }}>
-                Savings
-              </Text>
-              <ProgressBar
-                progress={0.3}
-                width={130}
-                height={5}
-                unfilledColor={'#F0EDFC'}
-                color={'#6C4EE3'}
-                borderColor={'transparent'}
+                  <Text
+                    style={{
+                      color: '#777F89',
+                      fontSize: 14,
+                      fontFamily: 'Inter-Regular',
+                    }}>
+                    Personal
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.cardSmall}>
+                <View>
+                  <Text
+                    style={{
+                      color: '#000000',
+                      fontSize: 30,
+                      fontFamily: 'Inter-SemiBold',
+                    }}>
+                    12
+                    <Text
+                      style={{
+                        color: '#000000',
+                        fontSize: 17,
+                        fontFamily: 'Inter-SemiBold',
+                      }}>
+                      %
+                    </Text>
+                  </Text>
+
+                  <Text
+                    style={{
+                      color: '#777F89',
+                      fontSize: 14,
+                      fontFamily: 'Inter-Regular',
+                    }}>
+                    Savings
+                  </Text>
+                  <ProgressBar
+                    progress={0.3}
+                    width={130}
+                    height={5}
+                    unfilledColor={'#F0EDFC'}
+                    color={'#6C4EE3'}
+                    borderColor={'transparent'}
+                  />
+                </View>
+              </View>
+            </View>
+            <View style={styles.cardBig}>
+              <LineChart
+                data={data}
+                width={screenWidth - 60}
+                height={160}
+                withInnerLines={false}
+                withOuterLines={false}
+                chartConfig={chartConfig}
               />
             </View>
           </View>
-        </View>
-        <View style={styles.cardBig}>
-          <LineChart
-            data={data}
-            width={screenWidth - 60}
-            height={160}
-            withInnerLines={false}
-            withOuterLines={false}
-            chartConfig={chartConfig}
-          />
-        </View>
-      </View>
+        </>
+      )}
+
+      {addMoneyActive && <AMComponent setAddMoneyActive={setAddMoneyActive} />}
+
+      {/* footer */}
       <View
         style={{
           backgroundColor: 'white',
