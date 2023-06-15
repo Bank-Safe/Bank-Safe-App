@@ -4,10 +4,13 @@ import {StyleSheet, View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {NavigationContainer} from '@react-navigation/native';
-import Onboarding from './src/screens/Onboarding';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
- 
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Transfer from './src/screens/Transfer';
+import Home from './src/screens/Home';
+import Hub from './src/screens/Hub';
+
+
 const Stack = createStackNavigator();
 
 const config = {
@@ -28,6 +31,7 @@ function App() {
    
   return (
     <SafeAreaProvider>
+
     <View style={{flex: 1, backgroundColor: '#050203'}}>
       <NavigationContainer>
           
@@ -50,9 +54,20 @@ function App() {
                 >
                  
                 <Stack.Screen
-                  name="onBoard"
+                  name="Home"
                   options={{headerShown: false}}
-                  component={Onboarding}
+                  component={Home}
+                />
+                <Stack.Screen
+                  name="Transfer"
+                  options={{headerShown: false}}
+                  component={Transfer}
+                />
+
+                <Stack.Screen
+                  name="Hub"
+                  options={{headerShown: false}}
+                  component={Hub}
                 />
               </Stack.Navigator>
            
