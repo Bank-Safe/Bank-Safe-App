@@ -9,6 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Transfer from './src/screens/Transfer';
 import Home from './src/screens/Home';
 import Hub from './src/screens/Hub';
+import OnBoard from './src/screens/OnBoard';
 
 
 const Stack = createStackNavigator();
@@ -53,6 +54,11 @@ function App() {
                 }}
                 >
                  
+                <Stack.Screen
+                  name="OnBoard"
+                  options={{headerShown: false}}
+                  component={OnBoard}
+                />
                 <Stack.Screen
                   name="Home"
                   options={{headerShown: false}}

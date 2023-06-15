@@ -12,7 +12,7 @@ import {
 } from 'react-native'; 
 import Header from '../components/Header';
  
-import NewTransactionModal from '../components/NewTransactionModal';
+import NewTransferModal from '../components/NewTransferModal';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Path, Svg} from 'react-native-svg';
 
@@ -160,7 +160,7 @@ export default function Transfer({navigation}) {
           </View>
         </TouchableOpacity>
       </View>
-      <NewTransactionModal
+      <NewTransferModal
         isModalVisible={isModalVisible}
         setModalVisible={setModalVisible}
       />

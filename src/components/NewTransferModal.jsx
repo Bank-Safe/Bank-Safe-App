@@ -6,7 +6,7 @@ import {TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import {Path, Svg} from 'react-native-svg';
 
-const NewTransactionModal = ({isModalVisible, setModalVisible}) => {
+const NewTransferModal = ({isModalVisible, setModalVisible}) => {
   return (
     <View style={{flex: 1}}>
       <Modal
@@ -324,4 +324,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewTransactionModal;
+export default NewTransferModal;
