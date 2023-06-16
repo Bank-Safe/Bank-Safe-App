@@ -1,26 +1,42 @@
 import React, {useEffect, useState} from 'react';
 
-import {Button, View, Text, StyleSheet, Picker} from 'react-native';
- 
+import {Button, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 const OnBoardPg2 = ({setOnBoardDataPage}) => {
-   const [day, setDay] = useState('');
+  const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
 
   // Function to handle the selection of day
-  const handleDayChange = (value) => {
+  const handleDayChange = value => {
     setDay(value);
   };
 
   // Function to handle the selection of month
-  const handleMonthChange = (value) => {
+  const handleMonthChange = value => {
     setMonth(value);
   };
 
   // Function to handle the selection of year
-  const handleYearChange = (value) => {
+  const handleYearChange = value => {
     setYear(value);
   };
+  const months = [
+    {label: 'Month', value: ''},
+    {label: 'January', value: '1'},
+    {label: 'February', value: '2'},
+    {label: 'March', value: '3'},
+    {label: 'April', value: '4'},
+    {label: 'May', value: '5'},
+    {label: 'June', value: '6'},
+    {label: 'July', value: '7'},
+    {label: 'August', value: '8'},
+    {label: 'September', value: '9'},
+    {label: 'October', value: '10'},
+    {label: 'November', value: '11'},
+    {label: 'December', value: '12'},
+  ];
+
   return (
     <>
       <View
@@ -40,13 +56,34 @@ const OnBoardPg2 = ({setOnBoardDataPage}) => {
       <View
         style={{flex: 2, justifyContent: 'flex-start', alignItems: 'center'}}>
         <View style={styles.container}>
-          <Text style={styles.label}>Date of Birth</Text>
           <View style={styles.dropdownContainer}>
+             {/* Month dropdown */}
+             <Picker
+              selectedValue={month}
+              style={{   width:130,
+                backgroundColor:"#EBEBEB",
+             margin: 4,
+             padding:10,}}
+              onValueChange={handleMonthChange}
+              >
+              {months.map(monthOption => (
+                <Picker.Item
+                  label={monthOption.label}
+                  value={monthOption.value}
+                  key={monthOption.value}
+                />
+              ))}
+            </Picker>
+
             {/* Day dropdown */}
             <Picker
               selectedValue={day}
-              style={styles.dropdown}
-              onValueChange={handleDayChange}>
+              style={{   width:110,
+                 backgroundColor:"#EBEBEB",
+              margin: 4,
+              padding:10,}}
+              onValueChange={handleDayChange}
+              >
               <Picker.Item label="Day" value="" />
               {/* Render day options */}
               {Array.from({length: 31}, (_, index) => (
@@ -58,22 +95,16 @@ const OnBoardPg2 = ({setOnBoardDataPage}) => {
               ))}
             </Picker>
 
-            {/* Month dropdown */}
-            <Picker
-              selectedValue={month}
-              style={styles.dropdown}
-              onValueChange={handleMonthChange}>
-              <Picker.Item label="Month" value="" />
-              <Picker.Item label="January" value="January" />
-              <Picker.Item label="February" value="February" />
-              {/* Render month options for the remaining months */}
-            </Picker>
-
+           
             {/* Year dropdown */}
             <Picker
               selectedValue={year}
-              style={styles.dropdown}
-              onValueChange={handleYearChange}>
+              style={{   width:110,
+                backgroundColor:"#EBEBEB",
+             margin: 4,
+             padding:10,}}
+              onValueChange={handleYearChange}
+              >
               <Picker.Item label="Year" value="" />
               {/* Render year options */}
               {Array.from({length: 100}, (_, index) => {
@@ -89,6 +120,22 @@ const OnBoardPg2 = ({setOnBoardDataPage}) => {
               })}
             </Picker>
           </View>
+          <TouchableOpacity onPress={() => setOnBoardDataPage(2)}>
+            <Text
+              style={{
+                color: '#FFFFFF',
+                backgroundColor: '#B1A2ED',
+                padding: 11,
+                borderRadius: 20,
+                fontFamily: 'Inter-Regular',
+                fontSize: 14,
+                textAlign: 'center',
+                margin: 10,
+                marginTop:50
+              }}>
+              Continue
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </>
@@ -158,10 +205,7 @@ const styles = StyleSheet.create({
   dropdownContainer: {
     flexDirection: 'row',
   },
-  dropdown: {
-    flex: 1,
-    margin: 4,
-  },
+  
 });
 
 export default OnBoardPg2;
