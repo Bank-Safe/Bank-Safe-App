@@ -4,6 +4,10 @@ import {StyleSheet, Text, View, StatusBar} from 'react-native';
 import OnBoardPg0 from '../components/OnBoardPg0';
 import OnBoardPg1 from '../components/OnBoardPg1';
 import OnBoardPg2 from '../components/OnBoardPg2';
+import OnBoardPg3 from '../components/OnBoardPg3';
+import OnBoardPg4 from '../components/OnBoardPg4';
+import OnBoardPg5 from '../components/OnBoardPg5';
+import OnBoardPg6 from '../components/OnBoardPg6';
 
 
 export default function OnBoard({navigation}) {
@@ -23,6 +27,14 @@ export default function OnBoard({navigation}) {
             return  <OnBoardPg1 setOnBoardDataPage={setOnBoardDataPage}/>
           case 2:
             return  <OnBoardPg2 setOnBoardDataPage={setOnBoardDataPage}/>
+          case 3:
+            return  <OnBoardPg3 setOnBoardDataPage={setOnBoardDataPage}/>
+          case 4:
+            return  <OnBoardPg4 setOnBoardDataPage={setOnBoardDataPage}/>
+          case 5:
+            return  <OnBoardPg5 setOnBoardDataPage={setOnBoardDataPage}/>
+          case 6:
+            return  <OnBoardPg6 setOnBoardDataPage={setOnBoardDataPage}/>
           case 'lost':
             return <Text>Hello</Text>;
           default:

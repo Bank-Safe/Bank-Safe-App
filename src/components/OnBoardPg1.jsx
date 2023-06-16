@@ -45,6 +45,7 @@ const OnBoardPg1 = ({setOnBoardDataPage}) => {
           onChangeText={setFirstName}
           value={firstName}
           placeholder={'First Name'}
+          placeholderTextColor={"#26292D"}
         />
          <Text
           style={{
@@ -60,6 +61,7 @@ const OnBoardPg1 = ({setOnBoardDataPage}) => {
           style={styles.input}
           onChangeText={setLastName}
           value={lastName}
+          placeholderTextColor={"#26292D"}
           placeholder={'Last Name'}
         />
           <TouchableOpacity onPress={() => setOnBoardDataPage(2)}>
