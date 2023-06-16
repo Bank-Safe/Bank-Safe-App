@@ -9,7 +9,7 @@ import {Path, Svg} from 'react-native-svg';
 const OnBoardPg0 = ({setOnBoardDataPage}) => {
   return (
     <>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', margin:10}}>
         <Text
           style={{
             fontFamily: 'Inter-Bold',

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 
 import {
   View,
@@ -9,9 +9,25 @@ import {
   Image,
 } from 'react-native';
 
-import {Circle, Defs, Path, Pattern, Svg, Use} from 'react-native-svg';
+import RadioButton from '../components/RadioButton';
 
-const OnBoardPg6 = ({setOnBoardDataPage}) => {
+const PROP = [
+	{
+		key: 'Driver’s license',
+		text: 'Driver’s license',
+	},
+	{
+		key: 'Passport',
+		text: 'Passport',
+	},
+	{
+		key: 'Identity card',
+		text: 'Identity card',
+	}, 
+];
+const OnBoardPg7 = ({setOnBoardDataPage}) => {
+
+const [radioSelected, setRadioSelected] = useState("");
   return (
     <>
       <View
@@ -30,54 +46,47 @@ const OnBoardPg6 = ({setOnBoardDataPage}) => {
             padding: 10,
             paddingBottom: 0,
           }}>
-          Are you a cizien of Portugal?
+          Pick an original document to upload
         </Text>
         <Text
           style={{
             fontFamily: 'Inter-Medium',
-            fontSize: 16,
-            color: '#000000',
+            fontSize: 14,
+            color: '#777F89',
             width: 300,
             padding: 10,
             paddingBottom: 0,
           }}>
-          We need this information to open your account.
+          We need a valid document to confirm that you reside in Portugal and
+          verify who you are. Data is processed securely
         </Text>
       </View>
       <View
         style={{flex: 2, justifyContent: 'flex-start', alignItems: 'center'}}>
         <View style={styles.container}>
-          <View style={styles.preview}>
-            <Image
-              style={{height: 120, width: 120}}
-              source={require('../assets/images/portugalFlag.png')}
-            />
+          <View
+            style={{
+              margin: 30,
+              marginTop: 30,
+              backgroundColor: 'white',
+              borderRadius: 28,
+              padding: 15, 
+            }}>
+          <View style={styles.container}>
+        <RadioButton   PROP={PROP} radioSelected={radioSelected} setRadioSelected={setRadioSelected} />
+      </View>
+
+             
           </View>
-
-          <View style={{margin: 10, marginTop: 150, flexDirection: 'row',justifyContent:"space-between"}}>
+          <View
+            style={{
+              margin: 10,
+              marginTop: 50,
+            }}>
+           
             <TouchableOpacity
-            style={{width:"48%"}}
               onPress={() => {
-                setOnBoardDataPage(6);
-              }}>
-              <Text
-                style={{
-                  color: '#FFFFFF',
-                  backgroundColor: '#B1A2ED',
-                  padding: 11,
-                  borderRadius: 20,
-                  fontFamily: 'Inter-Regular',
-                  fontSize: 14,
-                  textAlign: 'center',
-
-                }}>
-                No
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-            style={{width:"48%"}}
-              onPress={() => {
-                setOnBoardDataPage(7);
+                setOnBoardDataPage(8);
               }}>
               <Text
                 style={{
@@ -89,7 +98,7 @@ const OnBoardPg6 = ({setOnBoardDataPage}) => {
                   fontSize: 14,
                   textAlign: 'center',
                 }}>
-                Yes
+                Continue
               </Text>
             </TouchableOpacity>
           </View>
@@ -183,6 +192,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 300,
   },
+  radioButtonContainer: {
+    marginBottom: 10, // Custom margin between radio buttons
+  },
+  radioButtonText: {
+    fontSize: 16, // Custom font size
+  },
 });
 
-export default OnBoardPg6;
+export default OnBoardPg7;

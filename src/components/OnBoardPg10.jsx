@@ -9,9 +9,9 @@ import {
   Image,
 } from 'react-native';
 
-import {Circle, Defs, Path, Pattern, Svg, Use} from 'react-native-svg';
 
-const OnBoardPg6 = ({setOnBoardDataPage}) => {
+
+const OnBoardPg10 = ({setOnBoardDataPage,navigation}) => {
   return (
     <>
       <View
@@ -30,19 +30,9 @@ const OnBoardPg6 = ({setOnBoardDataPage}) => {
             padding: 10,
             paddingBottom: 0,
           }}>
-          Are you a cizien of Portugal?
+         Portugal: is this your sole tax residency?
         </Text>
-        <Text
-          style={{
-            fontFamily: 'Inter-Medium',
-            fontSize: 16,
-            color: '#000000',
-            width: 300,
-            padding: 10,
-            paddingBottom: 0,
-          }}>
-          We need this information to open your account.
-        </Text>
+         
       </View>
       <View
         style={{flex: 2, justifyContent: 'flex-start', alignItems: 'center'}}>
@@ -77,7 +67,7 @@ const OnBoardPg6 = ({setOnBoardDataPage}) => {
             <TouchableOpacity
             style={{width:"48%"}}
               onPress={() => {
-                setOnBoardDataPage(7);
+                navigation.navigate("Home")
               }}>
               <Text
                 style={{
@@ -185,4 +175,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OnBoardPg6;
+export default OnBoardPg10;

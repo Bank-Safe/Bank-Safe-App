@@ -30,6 +30,7 @@ const OnBoardPg5 = ({setOnBoardDataPage}) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'flex-start',
+          margin:10
         }}>
         <Text
           style={{
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-
+    color:"#26292D",
     borderRadius: 17,
     padding: 10,
     paddingHorizontal: 10,

@@ -19,9 +19,11 @@ const OnBoardPg4 = ({setOnBoardDataPage}) => {
       <View
         style={{
           flex: 1,
+          margin:10,
           marginTop: 130,
           justifyContent: 'center',
           alignItems: 'center',
+          
         }}>
         <Text
           style={{
@@ -220,7 +222,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-
+    color:"#26292D",
     borderRadius: 17,
     padding: 10,
     paddingHorizontal: 10,

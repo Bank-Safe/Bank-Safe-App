@@ -8,6 +8,10 @@ import OnBoardPg3 from '../components/OnBoardPg3';
 import OnBoardPg4 from '../components/OnBoardPg4';
 import OnBoardPg5 from '../components/OnBoardPg5';
 import OnBoardPg6 from '../components/OnBoardPg6';
+import OnBoardPg7 from '../components/OnBoardPg7';
+import OnBoardPg8 from '../components/OnBoardPg8';
+import OnBoardPg9 from '../components/OnBoardPg9';
+import OnBoardPg10 from '../components/OnBoardPg10';
 
 
 export default function OnBoard({navigation}) {
@@ -35,6 +39,14 @@ export default function OnBoard({navigation}) {
             return  <OnBoardPg5 setOnBoardDataPage={setOnBoardDataPage}/>
           case 6:
             return  <OnBoardPg6 setOnBoardDataPage={setOnBoardDataPage}/>
+          case 7:
+            return  <OnBoardPg7 setOnBoardDataPage={setOnBoardDataPage}/>
+          case 8:
+            return  <OnBoardPg8 setOnBoardDataPage={setOnBoardDataPage}/>
+          case 9:
+            return  <OnBoardPg9 setOnBoardDataPage={setOnBoardDataPage}/>
+          case 10:
+            return  <OnBoardPg10 setOnBoardDataPage={setOnBoardDataPage} navigation={navigation}/>
           case 'lost':
             return <Text>Hello</Text>;
           default:

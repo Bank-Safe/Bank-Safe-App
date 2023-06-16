@@ -16,7 +16,7 @@ const OnBoardPg3 = ({setOnBoardDataPage}) => {
   return (
     <>
       <View
-        style={{flex: 1, justifyContent: 'center', alignItems: 'flex-start'}}>
+        style={{flex: 1, justifyContent: 'center', alignItems: 'flex-start', margin:10}}>
         <Text
           style={{
             fontFamily: 'Inter-Bold',
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-
+    color:"#26292D",
     borderRadius: 17,
     padding: 10,
     paddingHorizontal: 10,
