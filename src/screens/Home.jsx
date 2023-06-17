@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   StyleSheet,
@@ -9,6 +9,8 @@ import {
   Image,
   ScrollView,
   FlatList,
+  ImageBackground,
+  Alert,
 } from 'react-native';
 import Header from '../components/Header';
 import ProgressBar from 'react-native-progress/Bar';
@@ -16,6 +18,11 @@ import {LineChart} from 'react-native-chart-kit';
 import AddMoreModal from '../components/AddMoreModal';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AMComponent from '../components/AMComponent';
+import {Linking} from 'react-native';
+import {MoneriumClient} from '@monerium/sdk';
+
+import * as CryptoJS from 'crypto-js';
+import { URL, URLSearchParams } from 'react-native-url-polyfill';
 
 const screenWidth = Dimensions.get('window').width;
 const data = {
@@ -49,6 +56,74 @@ export default function Home({navigation}) {
   const [progress, setProgress] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
   const [addMoneyActive, setAddMoneyActive] = useState(false);
+
+  const useInitialURL = () => {
+    const [url, setUrl] = useState(null);
+    const [processing, setProcessing] = useState(true);
+
+    useEffect(() => {
+      const getUrlAsync = async () => {
+        // Get the deep link used to open the app
+        const initialUrl = await Linking.getInitialURL();
+
+        setUrl(initialUrl);
+        setProcessing(false);
+        console.log(initialUrl);
+        if (initialUrl) {
+          const route = initialUrl.replace(/.*?:\/\//g, '');
+          const id = route.match(/\/([^\/]+)\/?$/)[1];
+          console.log(id);
+          Alert.alert('Deep Link called id:' + id);
+        }
+      };
+      Linking.addEventListener('url', data => {
+        console.log(data);
+        const url = new URL(data.url);
+
+        let code = url.searchParams.get('code');
+        console.log(data);
+        Alert.alert('code is ' + code);
+      });
+    }, []);
+
+    return {url, processing};
+  };
+  const {url: initialUrl, processing} = useInitialURL();
+
+  // useEffect(() => {
+  //   Linking.getInitialURL().then(url => {
+  //     navigateHandler(url);
+  //   });
+  //   if (Platform.OS === 'ios') {
+  //     Linking.addEventListener('url', handleOpenURL);
+  //   }
+  //   return () => {
+  //     if (Platform.OS === 'ios') {
+  //       Linking.removeEventListener('url', handleOpenURL);
+  //     }
+  //   };
+  // }, []);
+
+  function base64UrlEncode(data) {
+    const base64 = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(data));
+    const base64url = base64
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+    return base64url;
+  }
+  const handleOpenURL = event => {
+    navigateHandler(event.url);
+  };
+  const navigateHandler = async url => {
+    if (url) {
+      const {navigate} = navigation;
+      const route = url.replace(/.*?:\/\//g, '');
+      const id = route.match(/\/([^\/]+)\/?$/)[1];
+      console.log(id);
+      Alert.alert('Deep Link called id:' + id);
+    }
+  };
   return (
     <>
       <StatusBar
@@ -58,7 +133,7 @@ export default function Home({navigation}) {
 
       {!addMoneyActive && (
         <>
-          <Header text={"Home"} />
+          <Header text={'Home'} />
 
           <View style={styles.container}>
             <View style={styles.cardBig}>
@@ -69,14 +144,14 @@ export default function Home({navigation}) {
                     fontSize: 30,
                     fontFamily: 'Inter-SemiBold',
                   }}>
-                  1.337
+                  0
                   <Text
                     style={{
                       color: '#000000',
                       fontSize: 17,
                       fontFamily: 'Inter-SemiBold',
                     }}>
-                    ,69 €
+                    ,0 €
                   </Text>
                 </Text>
 
@@ -164,6 +239,68 @@ export default function Home({navigation}) {
               </View>
             </View>
             <View style={{flexDirection: 'row', margin: 15, marginTop: 0}}>
+              <View style={{}}>
+                <ImageBackground
+                  style={{
+                    height: 220,
+                    width: 330,
+                    justifyContent: 'flex-end',
+                    flexDirection: 'column',
+                  }}
+                  source={require('../assets/images/momentumConnect.png')}>
+                  <TouchableOpacity
+                    style={{paddingVertical: 10}}
+                    onPress={async () => {
+                      try {
+                        const client = new MoneriumClient();
+                        // Construct the authFlowUrl for your application and redirect your customer.
+                        let authFlowUrl = client.getAuthFlowURI({
+                          client_id: 'ea68f375-0c7a-11ee-af2c-2a2ebdaf368e',
+                          redirect_uri: 'https://banksafe/1',
+                          // immediately connect a wallet by adding these optional parameters:
+                          address: '0x5451FcCB2F40556f225d410aBAB5bD1Ab9ff6b6f',
+                          signature:
+                            '0xVALID_SIGNATURE_2c23962f5a2f189b777b6ecc19a395f446c86aaf3b5d1dc0ba919ddb34372f4c9f0c8686cfc2e8266b3e4d8d1bc7bc67c34a11f9dfe8e691b',
+                          chain: 'gnosis',
+                          network: 'chiado',
+                        });
+
+                        const codeVerifier = client.codeVerifier;
+                        console.log(authFlowUrl, codeVerifier);
+                        Linking.openURL(authFlowUrl);
+                        // const codeVerifier1 =
+                        //   CryptoJS.lib.WordArray.random(64).toString();
+                        // console.log(codeVerifier1);
+                        // const codeChallenge = base64UrlEncode(
+                        //   CryptoJS.SHA256(codeVerifier1),
+                        // );
+                        // console.log(codeChallenge);
+
+                        // Linking.openURL(
+                        //   'https://api.monerium.dev/auth?code_challenge=hiXNAJrP0JX7RAjgdaCbn_CNqxbix4JRJGSFadlxy5A&code_challenge_method=S256&response_type=code&client_id=41836f77-0a63-11ee-af2c-2a2ebdaf368e',
+                        // );
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }}>
+                    <Text
+                      style={{
+                        color: '#FFFFFF',
+                        backgroundColor: '#006DDA',
+                        padding: 11,
+                        borderRadius: 20,
+                        fontFamily: 'Inter-Regular',
+                        fontSize: 14,
+                        textAlign: 'center',
+                        marginHorizontal: 20,
+                      }}>
+                      Log in to Monerium
+                    </Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+              </View>
+            </View>
+            {/* <View style={{flexDirection: 'row', margin: 15, marginTop: 0}}>
               <View style={styles.cardSmall}>
                 <View>
                   <Text
@@ -220,8 +357,8 @@ export default function Home({navigation}) {
                   </Text>
                 </View>
               </View>
-            </View>
-            <View style={{flexDirection: 'row', margin: 15, marginTop: 0}}>
+            </View> */}
+            {/* <View style={{flexDirection: 'row', margin: 15, marginTop: 0}}>
               <View style={styles.cardSmall}>
                 <View>
                   <Text
@@ -288,8 +425,8 @@ export default function Home({navigation}) {
                   />
                 </View>
               </View>
-            </View>
-            <View style={styles.cardBig}>
+            </View> */}
+            {/* <View style={styles.cardBig}>
               <LineChart
                 data={data}
                 width={screenWidth - 60}
@@ -298,7 +435,7 @@ export default function Home({navigation}) {
                 withOuterLines={false}
                 chartConfig={chartConfig}
               />
-            </View>
+            </View> */}
           </View>
         </>
       )}

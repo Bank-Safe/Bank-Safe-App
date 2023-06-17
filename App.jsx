@@ -1,16 +1,15 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Linking, Platform, StyleSheet, View} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {NavigationContainer} from '@react-navigation/native';
 
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Transfer from './src/screens/Transfer';
 import Home from './src/screens/Home';
 import Hub from './src/screens/Hub';
 import OnBoard from './src/screens/OnBoard';
-
 
 const Stack = createStackNavigator();
 
@@ -25,60 +24,55 @@ const config = {
     restSpeedThreshold: 0.01,
   },
 };
-
-
+export const cryp = require('crypto');
 
 function App() {
-   
+  
   return (
     <SafeAreaProvider>
-
-    <View style={{flex: 1, backgroundColor: '#050203'}}>
-      <NavigationContainer>
-          
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                  // ...TransitionPresets.SlideFromRightIOS,
-                  transitionSpec: {
-                    open: config,
-                    close: config,
+      <View style={{flex: 1, backgroundColor: '#050203'}}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              // ...TransitionPresets.SlideFromRightIOS,
+              transitionSpec: {
+                open: config,
+                close: config,
+              },
+              cardStyleInterpolator: ({current: {progress}}) => {
+                return {
+                  cardStyle: {
+                    opacity: progress,
                   },
-                  cardStyleInterpolator: ({current: {progress}}) => {
-                    return {
-                      cardStyle: {
-                        opacity: progress,
-                      },
-                    };
-                  },
-                }}
-                >
-                 
-                <Stack.Screen
-                  name="OnBoard"
-                  options={{headerShown: false}}
-                  component={OnBoard}
-                />
-                <Stack.Screen
-                  name="Home"
-                  options={{headerShown: false}}
-                  component={Home}
-                />
-                <Stack.Screen
-                  name="Transfer"
-                  options={{headerShown: false}}
-                  component={Transfer}
-                />
+                };
+              },
+            }}>
+            <Stack.Screen
+              name="Home"
+              options={{headerShown: false}}
+              component={Home}
+            />
+            <Stack.Screen
+              name="OnBoard"
+              options={{headerShown: false}}
+              component={OnBoard}
+            />
 
-                <Stack.Screen
-                  name="Hub"
-                  options={{headerShown: false}}
-                  component={Hub}
-                />
-              </Stack.Navigator>
-           
-      </NavigationContainer>
-    </View>
+            <Stack.Screen
+              name="Transfer"
+              options={{headerShown: false}}
+              component={Transfer}
+            />
+
+            <Stack.Screen
+              name="Hub"
+              options={{headerShown: false}}
+              component={Hub}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
     </SafeAreaProvider>
   );
 }
