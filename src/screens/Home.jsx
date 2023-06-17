@@ -22,7 +22,8 @@ import {Linking} from 'react-native';
 import {MoneriumClient} from '@monerium/sdk';
 
 import * as CryptoJS from 'crypto-js';
-import { URL, URLSearchParams } from 'react-native-url-polyfill';
+import {URL, URLSearchParams} from 'react-native-url-polyfill';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const screenWidth = Dimensions.get('window').width;
 const data = {
@@ -53,13 +54,14 @@ const chartConfig = {
   },
 };
 export default function Home({navigation}) {
-  const [progress, setProgress] = useState(0);
+  const [codeVerifier, setCodeVerifier] = useState('');
   const [isModalVisible, setModalVisible] = useState(false);
   const [addMoneyActive, setAddMoneyActive] = useState(false);
-
+  const [login, setLogin] = useState(false);
   const useInitialURL = () => {
     const [url, setUrl] = useState(null);
     const [processing, setProcessing] = useState(true);
+   
 
     useEffect(() => {
       const getUrlAsync = async () => {
@@ -76,15 +78,58 @@ export default function Home({navigation}) {
           Alert.alert('Deep Link called id:' + id);
         }
       };
-      Linking.addEventListener('url', data => {
-        console.log(data);
-        const url = new URL(data.url);
+      Linking.addEventListener('url', async data => {
+        try {
+          console.log(data);
+          const url = new URL(data.url);
+          let regex = /[?&]([^=#]+)=([^&#]*)/g,
+            params = {},
+            match;
+          while ((match = regex.exec(data.url))) {
+            params[match[1]] = match[2];
+            console.log(match[1], match[2]);
+          }
+          const {code} = params;
 
-        let code = url.searchParams.get('code');
-        console.log(data);
-        Alert.alert('code is ' + code);
+          console.log('code', code);
+          setLogin(true)
+          const value = await AsyncStorage.getItem('codeVerifier');
+          console.log(value);
+          if (value !== null) {
+            // await fetch('https://api.monerium.dev/auth/token', {
+            //   method: 'POST',
+            //   body: new URLSearchParams({
+            //     client_id: 'ea68f375-0c7a-11ee-af2c-2a2ebdaf368e',
+            //     code: code,
+            //     redirect_uri: 'https://banksafe/1',
+            //     grant_type: 'authorization_code',
+            //     code_verifier: value,
+            //   }),
+            //   headers: new Headers({
+            //     'content-type': 'application/x-www-form-urlencoded',
+            //   }),
+            // }).then(resp => {
+            //   console.log(resp);
+            // });
+            // const client = new MoneriumClient();
+            // await client.auth({
+            //   client_id: 'ea68f375-0c7a-11ee-af2c-2a2ebdaf368e',
+            //   code: code,
+            //   code_verifier: client.codeVerifier,
+            //   redirect_uri: 'https://banksafe/1',
+            // });
+
+            // // User is now authenticated, get authentication data
+
+            // let auth1 = await client.getAuthContext();
+            // console.log(auth1);
+            // Alert.alert('code is ' + code);
+          }
+        } catch (err) {
+          console.error(err);
+        }
       });
-    }, []);
+    }, [login]);
 
     return {url, processing};
   };
@@ -104,17 +149,6 @@ export default function Home({navigation}) {
   //   };
   // }, []);
 
-  function base64UrlEncode(data) {
-    const base64 = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(data));
-    const base64url = base64
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
-    return base64url;
-  }
-  const handleOpenURL = event => {
-    navigateHandler(event.url);
-  };
   const navigateHandler = async url => {
     if (url) {
       const {navigate} = navigation;
@@ -240,7 +274,7 @@ export default function Home({navigation}) {
             </View>
             <View style={{flexDirection: 'row', margin: 15, marginTop: 0}}>
               <View style={{}}>
-                <ImageBackground
+                {!login && <ImageBackground
                   style={{
                     height: 220,
                     width: 330,
@@ -266,6 +300,11 @@ export default function Home({navigation}) {
                         });
 
                         const codeVerifier = client.codeVerifier;
+                        setCodeVerifier(codeVerifier);
+                        await AsyncStorage.setItem(
+                          'codeVerifier',
+                          codeVerifier,
+                        );
                         console.log(authFlowUrl, codeVerifier);
                         Linking.openURL(authFlowUrl);
                         // const codeVerifier1 =
@@ -297,7 +336,7 @@ export default function Home({navigation}) {
                       Log in to Monerium
                     </Text>
                   </TouchableOpacity>
-                </ImageBackground>
+                </ImageBackground>}
               </View>
             </View>
             {/* <View style={{flexDirection: 'row', margin: 15, marginTop: 0}}>

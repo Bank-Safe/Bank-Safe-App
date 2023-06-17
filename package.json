@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@monerium/sdk": "^2.5.1",
+    "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-community/checkbox": "^0.5.15",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/masked-view": "^0.1.11",

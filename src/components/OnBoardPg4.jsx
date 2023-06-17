@@ -23,7 +23,7 @@ const OnBoardPg4 = ({setOnBoardDataPage}) => {
           marginTop: 130,
           justifyContent: 'center',
           alignItems: 'center',
-          
+
         }}>
         <Text
           style={{
@@ -31,7 +31,7 @@ const OnBoardPg4 = ({setOnBoardDataPage}) => {
             fontSize: 30,
             color: '#000000',
             width: 390,
-            padding: 10,
+            padding: 30,
             paddingBottom: 0,
           }}>
           About our services

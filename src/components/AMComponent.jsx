@@ -19,7 +19,7 @@ export default function AMComponent({setAddMoneyActive}) {
 
       <View style={{flex: 10, paddingBottom: 20}}>
         <ScrollView>
-          <Text style={{textAlign: 'center'}}>
+          <Text style={{textAlign: 'center',color:"#000000"}}>
             Use these details to{'\n'} transfer funds from your Bank account.
           </Text>
           <View style={styles.cardBig}>
@@ -47,7 +47,7 @@ export default function AMComponent({setAddMoneyActive}) {
                       fontSize: 14,
                       fontFamily: 'Inter-Regular',
                     }}>
-                    Fname Lname
+                    Hemang Vora
                   </Text>
                   <TouchableOpacity
                     onPress={() => Clipboard.setString('Fname Lname')}>
@@ -83,7 +83,7 @@ export default function AMComponent({setAddMoneyActive}) {
                       fontSize: 14,
                       fontFamily: 'Inter-Regular',
                     }}>
-                    ES33 1337 1337 1337 1337 1337
+                    ES33 1237 1347 1337 1337 1337
                   </Text>
                   <TouchableOpacity
                     onPress={() =>
@@ -134,7 +134,7 @@ export default function AMComponent({setAddMoneyActive}) {
               </View>
             </View>
           </View>
-          <Text style={{textAlign: 'center'}}>
+          <Text style={{textAlign: 'center',color:"#000000"}}>
             Use this wallet address to receive funds {'\n'}
             from a Gnosis Chain wallet.
             <Text
@@ -167,10 +167,10 @@ export default function AMComponent({setAddMoneyActive}) {
                   <Text
                     style={{
                       color: '#6C4EE3',
-                      fontSize: 14,
+                      fontSize: 10,
                       fontFamily: 'Inter-Regular',
                     }}>
-                    0x123..ABC
+                    0x5451FcCB2F40556f225d410aBAB5bD1Ab9ff6b6f
                   </Text>
                   <TouchableOpacity
                     onPress={() => Clipboard.setString('0x123..ABC')}>
