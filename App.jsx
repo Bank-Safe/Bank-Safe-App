@@ -48,17 +48,18 @@ function App() {
                 };
               },
             }}>
-                  <Stack.Screen
-              name="OnBoard"
-              options={{headerShown: false}}
-              component={OnBoard}
-            />
-            <Stack.Screen
+              <Stack.Screen
               name="Home"
               options={{headerShown: false}}
               component={Home}
             />
         
+                  <Stack.Screen
+              name="OnBoard"
+              options={{headerShown: false}}
+              component={OnBoard}
+            />
+            
 
             <Stack.Screen
               name="Transfer"
