@@ -27,6 +27,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SafeOnRampKit, MoneriumPack} from '@safe-global/onramp-kit';
 import Safe, {EthersAdapter, SafeFactory} from '@safe-global/protocol-kit';
 import {ethers} from 'ethers';
+import '@ethersproject/shims';
+
 const screenWidth = Dimensions.get('window').width;
 const data = {
   labels: ['1', '6', '11', '16', '21', '26', '31'],
@@ -288,37 +290,42 @@ export default function Home({navigation}) {
                       style={{paddingVertical: 10}}
                       onPress={async () => {
                         try {
-
                           const RPC_URL =
                             'https://ethereum-goerli.publicnode.com';
                           const provider = new ethers.providers.JsonRpcProvider(
-                            RPC_URL,
+                            {
+                              url: RPC_URL,
+                            },
                           );
-                            console.log("Step 1")
+                          console.log('Step 1');
                           // Initialize signers
                           const owner1Signer = new ethers.Wallet(
                             '912a23799341b4256a0ce4959dbbfd789792aa12cb1fea4451744a94b6bce818',
                             provider,
                           );
-                          console.log("Step 2")
+                          console.log('Step 2');
                           const ethAdapter = new EthersAdapter({
                             ethers,
-                            signerOrProvider: owner1Signer
-                          })
-                          console.log("Step 3")
-                          const safeSdk = await Safe.create({ ethAdapter })
-                          console.log(safeSdk.getAddress())
+                            signerOrProvider: owner1Signer,
+                          });
+                          console.log('Step 3');
+                          const safeSdk = await Safe.create({ethAdapter});
+                          console.log('step 4', safeSdk.getAddress());
 
                           const onRampKit = await SafeOnRampKit.init(
                             new MoneriumPack({
                               clientId: 'ea68f375-0c7a-11ee-af2c-2a2ebdaf368e', // Get your client id from Monerium
                               environment: 'sandbox', // Use the proper Monerium environment ('sandbox' | 'production')
                             }),
-                            {safeSdk}
+                            {safeSdk},
                           );
-                          await onRampKit.open({
+
+                          console.log('step 5',);
+                            
+                         let r =  await onRampKit.open({
                             redirectUrl: 'https://banksafe/1',
                           });
+                          console.log('step 5',r);
                           // const client = new MoneriumClient();
                           // // Construct the authFlowUrl for your application and redirect your customer.
                           // let authFlowUrl = client.getAuthFlowURI({
