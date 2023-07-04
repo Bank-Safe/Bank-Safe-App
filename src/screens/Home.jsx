@@ -118,7 +118,7 @@ export default function Home({navigation}) {
             await client.auth({
               client_id: 'ea68f375-0c7a-11ee-af2c-2a2ebdaf368e',
               code: code,
-              code_verifier: client.codeVerifier,
+              code_verifier: value,
               redirect_uri: 'https://banksafe/1',
             });
 
@@ -126,7 +126,7 @@ export default function Home({navigation}) {
 
             let auth1 = await client.getAuthContext();
             console.log(auth1);
-            Alert.alert('code is ' + code);
+            Alert.alert('authcontext ' + auth1);
           }
         } catch (err) {
           console.error(err);
@@ -290,64 +290,63 @@ export default function Home({navigation}) {
                       style={{paddingVertical: 10}}
                       onPress={async () => {
                         try {
-                          const RPC_URL =
-                            'https://ethereum-goerli.publicnode.com';
-                          const provider = new ethers.providers.JsonRpcProvider(
-                            {
-                              url: RPC_URL,
-                            },
-                          );
-                          console.log('Step 1');
-                          // Initialize signers
-                          const owner1Signer = new ethers.Wallet(
-                            '912a23799341b4256a0ce4959dbbfd789792aa12cb1fea4451744a94b6bce818',
-                            provider,
-                          );
-                          console.log('Step 2');
-                          const ethAdapter = new EthersAdapter({
-                            ethers,
-                            signerOrProvider: owner1Signer,
-                          });
-                          console.log('Step 3');
-                          const safeSdk = await Safe.create({ethAdapter});
-                          console.log('step 4', safeSdk.getAddress());
-
-                          const onRampKit = await SafeOnRampKit.init(
-                            new MoneriumPack({
-                              clientId: 'ea68f375-0c7a-11ee-af2c-2a2ebdaf368e', // Get your client id from Monerium
-                              environment: 'sandbox', // Use the proper Monerium environment ('sandbox' | 'production')
-                            }),
-                            {safeSdk},
-                          );
-
-                          console.log('step 5',);
-                            
-                         let r =  await onRampKit.open({
-                            redirectUrl: 'https://banksafe/1',
-                          });
-                          console.log('step 5',r);
-                          // const client = new MoneriumClient();
-                          // // Construct the authFlowUrl for your application and redirect your customer.
-                          // let authFlowUrl = client.getAuthFlowURI({
-                          //   client_id: 'ea68f375-0c7a-11ee-af2c-2a2ebdaf368e',
-                          //   redirect_uri: 'https://banksafe/1',
-                          //   // immediately connect a wallet by adding these optional parameters:
-                          //   address:
-                          //     '0x5451FcCB2F40556f225d410aBAB5bD1Ab9ff6b6f',
-                          //   signature:
-                          //     '0xVALID_SIGNATURE_2c23962f5a2f189b777b6ecc19a395f446c86aaf3b5d1dc0ba919ddb34372f4c9f0c8686cfc2e8266b3e4d8d1bc7bc67c34a11f9dfe8e691b',
-                          //   chain: 'gnosis',
-                          //   network: 'chiado',
-                          // });
-
-                          // const codeVerifier = client.codeVerifier;
-                          // setCodeVerifier(codeVerifier);
-                          // await AsyncStorage.setItem(
-                          //   'codeVerifier',
-                          //   codeVerifier,
+                          // const RPC_URL =
+                          //   'https://ethereum-goerli.publicnode.com';
+                          // const provider = new ethers.providers.JsonRpcProvider(
+                          //   {
+                          //     url: RPC_URL,
+                          //   },
                           // );
-                          // console.log(authFlowUrl, codeVerifier);
-                          // Linking.openURL(authFlowUrl);
+                          // console.log('Step 1');
+                          // // Initialize signers
+                          // const owner1Signer = new ethers.Wallet(
+                          //   '912a23799341b4256a0ce4959dbbfd789792aa12cb1fea4451744a94b6bce818',
+                          //   provider,
+                          // );
+                          // console.log('Step 2');
+                          // const ethAdapter = new EthersAdapter({
+                          //   ethers,
+                          //   signerOrProvider: owner1Signer,
+                          // });
+                          // console.log('Step 3');
+                        //   const safeSdk = await Safe.create({ethAdapter});
+                        //   console.log('step 4', safeSdk.getAddress());
+
+                        //   const onRampKit = await SafeOnRampKit.init(
+                        //     new MoneriumPack({
+                        //       clientId: 'ea68f375-0c7a-11ee-af2c-2a2ebdaf368e', // Get your client id from Monerium
+                        //       environment: 'sandbox', // Use the proper Monerium environment ('sandbox' | 'production')
+                        //     }),
+                        //     {safeSdk},
+                        //   );
+
+                        //   console.log('step 5',);
+                            
+                        //  let r =  await onRampKit.open({
+                        //     redirectUrl: 'https://banksafe/1',
+                        //   });
+                        //   console.log('step 5',r);
+                          const client = new MoneriumClient();
+                          // Construct the authFlowUrl for your application and redirect your customer.
+                          let authFlowUrl = client.getAuthFlowURI({
+                            client_id: 'ea68f375-0c7a-11ee-af2c-2a2ebdaf368e',
+                            redirect_uri: 'https://banksafe/1',
+                            // immediately connect a wallet by adding these optional parameters:
+                            address:
+                              '0x5451FcCB2F40556f225d410aBAB5bD1Ab9ff6b6f',
+                            // signature:'0xValidSignature0df2b6c9e0fc067ab29bdbf322bec30aad7c46dcd97f62498a91ef7795957397e0f49426e000b0f500c347219ddd98dc5080982563055e918031c',
+                            chain: 'gnosis',
+                            network: 'chiado',
+                          });
+
+                          const codeVerifier = client.codeVerifier;
+                          setCodeVerifier(codeVerifier);
+                          await AsyncStorage.setItem(
+                            'codeVerifier',
+                            codeVerifier,
+                          );
+                          console.log(authFlowUrl, codeVerifier);
+                          Linking.openURL(authFlowUrl);
                           // const codeVerifier1 =
                           //   CryptoJS.lib.WordArray.random(64).toString();
                           // console.log(codeVerifier1);
@@ -356,9 +355,7 @@ export default function Home({navigation}) {
                           // );
                           // console.log(codeChallenge);
 
-                          // Linking.openURL(
-                          //   'https://api.monerium.dev/auth?code_challenge=hiXNAJrP0JX7RAjgdaCbn_CNqxbix4JRJGSFadlxy5A&code_challenge_method=S256&response_type=code&client_id=41836f77-0a63-11ee-af2c-2a2ebdaf368e',
-                          // );
+
                         } catch (err) {
                           console.error(err);
                         }
